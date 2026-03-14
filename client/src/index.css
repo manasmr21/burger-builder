@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Light Mode - Fresh & Appetizing */
+    --bg-main: #fffaf0; /* Warm cream/sesame bun */
+    --bg-card: #ffffff;
+    --text-main: #2d3748;
+    --text-muted: #718096;
+    
+    /* Burger Brand Colors */
+    --brand-primary: #dd6b20; /* Bun Orange */
+    --brand-ketchup: #e53e3e; /* Tomato Red */
+    --brand-mustard: #ecc94b; /* Cheese Yellow */
+    --brand-lettuce: #48bb78; /* Fresh Green */
+    --brand-patty: #7b341e; /* Grilled Brown */
+    
+    --border-color: #e2e8f0;
+  }
+
+  /* Dark Mode - Late Night Craving */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-main: #171923; /* Deep dark gray */
+      --bg-card: #2d3748; /* Dark elevated card */
+      --text-main: #f7fafc;
+      --text-muted: #a0aec0;
+      
+      /* Glowing Brand Colors for Dark Mode */
+      --brand-primary: #ed8936;
+      --brand-ketchup: #fc8181;
+      --brand-mustard: #f6e05e;
+      --brand-lettuce: #68d391;
+      --brand-patty: #9c4221;
+      
+      --border-color: #4a5568;
+    }
+  }
+
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Custom utility classes using our theme variables */
+@utility text-brand {
+    color: var(--brand-primary);
+}
+
+@utility bg-brand {
+    background-color: var(--brand-primary);
+}
+
+@utility text-ketchup {
+    color: var(--brand-ketchup);
+}
+
+@utility bg-card {
+    background-color: var(--bg-card);
+}
