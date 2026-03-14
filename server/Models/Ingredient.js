@@ -14,6 +14,10 @@ const ingredientSchema = new mongoose.Schema({
         type: Number,
         required: true,
         min: 0
+    },
+    color: {
+        type: String,
+        required: true,
     }
 });
 

@@ -4,7 +4,7 @@ const Ingredient = require('../Models/Ingredient');
 
 router.get('/', async (req, res) => {
     try {
-        const ingredients = await Ingredient.find().select('-_id -__v'); // Exclude mongo-specific fields from response
+        const ingredients = await Ingredient.find().select('-_id -__v');
         res.status(200).json({ success: true, ingredients });
     } catch (error) {
         console.error("Error fetching ingredients:", error);

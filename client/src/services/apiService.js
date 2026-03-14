@@ -1,17 +1,6 @@
-/**
- * Centralize all backend API calls here to make it easy to manage
- * base URLs, headers, and error handling.
- */
-
-const API_BASE_URL = 'http://localhost:8080/api'; // Match the backend port
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const apiService = {
-  // --- INGREDIENTS ---
-  
-  /**
-   * Fetches the lookup list of ingredients from the database.
-   * Expected return: { success: true, ingredients: [...] }
-   */
   async getIngredients() {
     try {
       const response = await fetch(`${API_BASE_URL}/ingredients`);
@@ -25,14 +14,6 @@ export const apiService = {
     }
   },
 
-  // --- ORDERS ---
-
-  /**
-   * Submits a new order to the backend for price calculation and saving
-   * @param {Array<Number>} slices - Array of ingredient IDs (e.g. [1, 2, 1, 3])
-   * @param {Number} quantity - Total number of burgers
-   * Expected return: { success: true, order: {...} }
-   */
   async submitOrder(slices, quantity) {
     try {
       const response = await fetch(`${API_BASE_URL}/orders`, {
@@ -52,9 +33,6 @@ export const apiService = {
     }
   },
 
-  /**
-   * Fetches all past orders (sorted newest to oldest)
-   */
   async getOrders() {
     try {
       const response = await fetch(`${API_BASE_URL}/orders`);

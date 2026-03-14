@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronRight, Flame } from 'lucide-react';
 import burgerImage from '../assets/hero_burger.png';
-import BurgerBuilderModal from '../Components/BurgerBuilderModal.jsx';
+import BurgerBuilder from '../Components/BurgerBuilder.jsx';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 const Homepage = () => {
-    const [isBuilderOpen, setIsBuilderOpen] = useState(false);
+    const [isBuilderOpen, setIsBuilderOpen] = useState(true);
 
     return (
         <div className="h-screen w-full bg-yellow-50 text-slate-800 font-sans overflow-hidden selection:bg-red-400 selection:text-white relative">
 
-            {/* Floating Logo Top-Left */}
             <div className="absolute top-6 left-6 md:top-8 md:left-10 flex items-center gap-3 z-50">
                 <div className="w-10 h-10 md:w-12 md:h-12 bg-red-500 rounded-xl md:rounded-2xl flex items-center justify-center text-white text-xl md:text-2xl shadow-[4px_4px_0px_#b91c1c] rotate-[-5deg] hover:rotate-0 transition-transform cursor-pointer">
                     🍔
@@ -20,14 +21,11 @@ const Homepage = () => {
                 </span>
             </div>
 
-            {/* Hero Section */}
             <main className="relative w-full max-w-[1400px] h-full mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 pt-20 lg:pt-0">
 
-                {/* Background decorative elements */}
                 <div className="absolute top-10 right-20 w-64 h-64 bg-red-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
                 <div className="absolute bottom-10 left-20 w-72 h-72 bg-yellow-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
 
-                {/* Left Content Area */}
                 <div className="flex-1 text-center lg:text-left z-10 w-full">
 
                     <motion.h1
@@ -69,7 +67,6 @@ const Homepage = () => {
 
                 </div>
 
-                {/* Right Image Area */}
                 <div className="flex-1 w-full relative flex justify-center items-center z-20">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.8, rotate: 5 }}
@@ -77,7 +74,6 @@ const Homepage = () => {
                         transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.2 }}
                         className="relative w-full max-w-[600px] aspect-square rounded-full border-[16px] border-white shadow-[0_20px_50px_rgba(220,38,38,0.2)] bg-yellow-300 flex items-center justify-center overflow-hidden"
                     >
-                        {/* Sunburst background effect */}
                         <div className="absolute inset-0 bg-[repeating-conic-gradient(from_0deg,#fef08a_0deg_15deg,#fde047_15deg_30deg)] opacity-50 animate-[spin_60s_linear_infinite]"></div>
 
                         <motion.img
@@ -93,11 +89,12 @@ const Homepage = () => {
 
             </main>
 
-            {/* Burger Builder Modal */}
-            <BurgerBuilderModal
-                isOpen={isBuilderOpen}
-                onClose={() => setIsBuilderOpen(false)}
-            />
+            <DndProvider backend={HTML5Backend}>
+                <BurgerBuilder
+                    isOpen={isBuilderOpen}
+                    onClose={() => setIsBuilderOpen(false)}
+                />
+            </DndProvider>
         </div>
     );
 };

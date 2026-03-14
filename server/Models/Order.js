@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
     slices: [{
-        type: Number, // Reference to the Ingredient ID
+        type: Number,
         required: true
     }],
     quantity: {

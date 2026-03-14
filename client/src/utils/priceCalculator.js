@@ -14,7 +14,7 @@ export const calculatePrice = (slices, quantity = 1) => {
     let basePrice = 0;
     let hasCheese = false;
     let hasPaneer = false;
-    let consecutiveAlooTikkiPenalty = 0;
+    let alooTikkiCount = 0;
 
     for (let i = 0; i < slices.length; i++) {
         const type = slices[i].type;
@@ -22,24 +22,23 @@ export const calculatePrice = (slices, quantity = 1) => {
 
         if (type === 'cheese') hasCheese = true;
         if (type === 'paneer') hasPaneer = true;
-
-        if (i > 0 && type === 'aloo_tikki' && slices[i-1].type === 'aloo_tikki') {
-            consecutiveAlooTikkiPenalty += 2;
-        }
+        if (type === 'aloo_tikki') alooTikkiCount++;
     }
+
+    const alooTikkiPenalty = Math.floor(alooTikkiCount / 2) * 2;
 
     let discount = 0;
     if (hasCheese && hasPaneer) {
         discount = 3;
     }
 
-    const totalBeforeQty = basePrice - discount + consecutiveAlooTikkiPenalty;
+    const totalBeforeQty = basePrice - discount + alooTikkiPenalty;
     const finalPrice = Math.max(0, (totalBeforeQty * quantity) + PLATFORM_FEE);
 
     return {
         basePrice: basePrice * quantity,
         discount: discount * quantity,
-        penalty: consecutiveAlooTikkiPenalty * quantity,
+        penalty: alooTikkiPenalty * quantity,
         platformFee: PLATFORM_FEE,
         finalPrice,
         isOversized: slices.length > 6

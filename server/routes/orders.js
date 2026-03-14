@@ -12,33 +12,27 @@ router.post('/', async (req, res) => {
             return res.status(400).json({ success: false, message: "Order must contain at least one slice" });
         }
 
-        // 1. Fetch all ingredients that are in the user's burger
-        // The slices array might have duplicates (e.g. 2 cheese slices), so we fetch unique ingredients first
         const uniqueSliceIds = [...new Set(slices)];
         const ingredients = await Ingredient.find({ id: { $in: uniqueSliceIds } });
-        
-        // Create a lookup map for quick price access
+
         const ingredientMap = {};
         ingredients.forEach(ing => {
             ingredientMap[ing.id] = ing.price;
         });
 
-        // 2. Calculate Base Price
         let basePrice = 0;
         for (const sliceId of slices) {
             if (ingredientMap[sliceId] === undefined) {
-                 return res.status(400).json({ success: false, message: `Invalid ingredient ID: ${sliceId}` });
+                return res.status(400).json({ success: false, message: `Invalid ingredient ID: ${sliceId}` });
             }
             basePrice += ingredientMap[sliceId];
         }
 
         basePrice = basePrice * quantity;
 
-        // 3. Optional: apply any discounts, penalties, or platform fees here
-        // For now, we'll keep it simple
         const discount = 0;
         const penalty = 0;
-        const platformFee = 2; // Fixed platform fee
+        const platformFee = 2;
         const finalPrice = basePrice - discount + penalty + platformFee;
 
         const priceDetails = {
@@ -48,7 +42,7 @@ router.post('/', async (req, res) => {
             platformFee,
             finalPrice
         };
-        
+
         const newOrder = new Order({
             slices,
             quantity,
@@ -65,7 +59,6 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
     try {
-        // Find all orders and sort them by descending creation date (newest first)
         const orders = await Order.find().sort({ createdAt: -1 });
         res.status(200).json({ success: true, orders: orders });
     } catch (error) {
