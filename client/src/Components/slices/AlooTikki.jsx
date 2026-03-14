@@ -32,7 +32,7 @@ const AlooTikki = ({ id, index, moveSlice }) => {
         <motion.div
             ref={(node) => drag(drop(node))}
             initial={{ opacity: 1 }}
-            animate={{ opacity: isDragging ? 0.4 : 1 }}
+            animate={{ opacity: isDragging ? 0.3 : 1 }}
             className="w-[85%] h-12 md:h-16 rounded-3xl mx-auto cursor-grab active:cursor-grabbing shadow-md border-b-4 relative overflow-hidden flex flex-wrap items-center justify-center gap-2 p-2"
             style={{ backgroundColor: '#a16207', borderColor: '#713f12' }}
         >

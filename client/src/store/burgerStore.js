@@ -9,19 +9,26 @@ const useBurgerStore = create(
             quantity: 1,
             ingredients: [],
             isLoading: false,
+            alert: { isOpen: false, message: '', type: 'success' },
 
             addSlice: (slice) => set((state) => {
                 if (state.slices.length >= 10) return state;
-                return { slices: [...state.slices, { ...slice, id: Date.now() + Math.random() }] };
+                return { slices: [...state.slices, { ...slice, ingredientId: Date.now() + Math.random() }] };
             }),
 
             removeSlice: (id) => set((state) => ({
-                slices: state.slices.filter(s => s.id !== id)
+                slices: state.slices.filter(s => s.ingredientId !== id)
             })),
+
+            emptySlices: () => set({ slices: [] }),
 
             setQuantity: (qty) => set({ quantity: Math.max(1, qty) }),
 
             setLoading: (loading) => set({ isLoading: loading }),
+
+            showAlert: (message, type = 'success') => set({ alert: { isOpen: true, message, type } }),
+            
+            hideAlert: () => set((state) => ({ alert: { ...state.alert, isOpen: false } })),
 
             resetBurger: () => set({ slices: [], quantity: 1 }),
 

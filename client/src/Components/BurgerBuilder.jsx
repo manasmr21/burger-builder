@@ -11,6 +11,8 @@ import { useEffect, useState } from "react";
 import useBurgerStore from "../store/burgerStore";
 import CustomDragLayer from "./CustomDragLayer";
 import { calculatePrice } from "../utils/priceCalculator";
+import { useNavigate } from "react-router-dom";
+import Loader from "./Loader";
 
 const ingredientComponents = {
     aloo_tikki: AlooTikki,
@@ -24,9 +26,9 @@ const ingredientComponents = {
 const toTypeKey = (name) => name.toLowerCase().replace(/\s+/g, '_');
 
 const BurgerBuilder = ({ isOpen, onClose }) => {
-    if (!isOpen) return null;
+    const navigate = useNavigate();
 
-    const { setIngredientsBurger, setLoading, isLoading, ingredients, slices, addSlice, removeSlice } = useBurgerStore();
+    const { setIngredientsBurger, setLoading, isLoading, ingredients, slices, addSlice, removeSlice, quantity, setQuantity, emptySlices } = useBurgerStore();
 
     const fetchIngredients = async () => {
         setLoading(true);
@@ -46,13 +48,21 @@ const BurgerBuilder = ({ isOpen, onClose }) => {
         fetchIngredients();
     }, [])
 
+    if (!isOpen) return null;
+
+    const handleCheckout = () => {
+        onClose();
+        navigate('/checkout');
+    }
+
     function moveSlice(fromIndex, toIndex) {
         const updated = [...slices];
         const [removed] = updated.splice(fromIndex, 1);
         updated.splice(toIndex, 0, removed);
-        // Update slices directly via store
         useBurgerStore.setState({ slices: updated });
     }
+
+    console.log(slices)
 
     return (
         <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/50 p-4">
@@ -68,10 +78,7 @@ const BurgerBuilder = ({ isOpen, onClose }) => {
                 </button>
 
                 {isLoading || !ingredients ? (
-                    <div className="flex flex-col items-center justify-center py-24 gap-4">
-                        <div className="w-12 h-12 border-4 border-orange-200 border-t-orange-500 rounded-full animate-spin"></div>
-                        <p className="text-slate-500 font-bold text-lg">Loading ingredients...</p>
-                    </div>
+                    <Loader message="Loading ingredients..." />
                 ) : (
                     <div className="text-slate-700 flex leading-relaxed font-medium py-8">
                         <div className="left w-2/3">
@@ -85,7 +92,7 @@ const BurgerBuilder = ({ isOpen, onClose }) => {
                                         <div key={item.id + '-' + idx} className="relative group flex justify-center w-full z-10 hover:z-20 transition-transform">
                                             <SliceComponent id={item.id} index={idx} moveSlice={moveSlice} />
                                             <button
-                                                onClick={() => removeSlice(item.id)}
+                                                onClick={() => removeSlice(item.ingredientId)}
                                                 className="absolute left-2 md:-left-1 top-1/2 -translate-y-1/2 z-50 bg-red-500 text-white rounded-full w-6 h-6 text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md hover:scale-110"
                                             >
                                                 ✕
@@ -107,7 +114,7 @@ const BurgerBuilder = ({ isOpen, onClose }) => {
                                         return (
                                             <div
                                                 key={item.id + '-' + idx}
-                                                onClick={() => addSlice({ type: toTypeKey(item.name), name: item.name, price: item.price })}
+                                                onClick={() => addSlice({ id: item.id, type: toTypeKey(item.name), name: item.name, price: item.price })}
                                                 className={`px-4 py-3 rounded-xl text-white font-bold flex items-center justify-between gap-4 ${bgColor} shadow-md hover:scale-105 transition-transform cursor-pointer active:scale-95 select-none`}
                                             >
                                                 <span className="text-sm tracking-wide">{item.name}</span>
@@ -119,10 +126,10 @@ const BurgerBuilder = ({ isOpen, onClose }) => {
                             </div>
 
 
-                            {/* ---------------- Price calculator --------------- */}
+                            {/* Price Calculator — calculates from SLICES (user's burger) */}
                             {(() => {
                                 const mapped = slices?.map(item => ({ type: item.type || toTypeKey(item.name) })) || [];
-                                const price = calculatePrice(mapped);
+                                const price = calculatePrice(mapped, quantity);
                                 return (
                                     <div className="mt-6 bg-slate-50 rounded-2xl p-4 border border-slate-200">
                                         <h3 className="text-lg font-extrabold text-slate-800 mb-3">Price Summary</h3>
@@ -134,7 +141,7 @@ const BurgerBuilder = ({ isOpen, onClose }) => {
                                         )}
                                         <div className="space-y-2 text-sm font-medium text-slate-600">
                                             <div className="flex justify-between">
-                                                <span>Base Price ({slices?.length || 0} items)</span>
+                                                <span>Base Price ({slices?.length || 0} items) {quantity > 1 ? `x ${quantity}` : ''}</span>
                                                 <span>₹{price.basePrice}</span>
                                             </div>
                                             {price.discount > 0 && (
@@ -154,12 +161,40 @@ const BurgerBuilder = ({ isOpen, onClose }) => {
                                                 <span>₹{price.platformFee}</span>
                                             </div>
                                         </div>
+
+                                        <div className="mt-4 flex items-center justify-between border-t border-slate-300 pt-4">
+                                            <span className="text-base font-extrabold text-slate-800">Quantity</span>
+                                            <div className="flex items-center gap-3 bg-white border border-slate-200 rounded-full px-2 py-1 shadow-sm">
+                                                <button
+                                                    onClick={() => setQuantity(quantity - 1)}
+                                                    disabled={quantity <= 1}
+                                                    className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold disabled:opacity-50 transition-colors"
+                                                >
+                                                    -
+                                                </button>
+                                                <span className="font-bold text-lg text-slate-800 min-w-4 text-center">{quantity}</span>
+                                                <button
+                                                    onClick={() => setQuantity(quantity + 1)}
+                                                    className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold transition-colors"
+                                                >
+                                                    +
+                                                </button>
+                                            </div>
+                                        </div>
+
                                         <div className="mt-3 pt-3 border-t border-slate-300 flex justify-between items-center">
                                             <span className="text-base font-extrabold text-slate-800">Total</span>
                                             <span className="text-2xl font-black text-orange-600">
                                                 ₹{price.finalPrice}
                                             </span>
                                         </div>
+                                        <button
+                                            className="w-full mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-xl transition-colors shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2 text-lg cursor-pointer"
+                                            disabled={!slices?.length}
+                                            onClick={handleCheckout}
+                                        >
+                                            Checkout <span>➔</span>
+                                        </button>
                                     </div>
                                 );
                             })()}

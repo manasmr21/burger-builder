@@ -7,21 +7,12 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 const Homepage = () => {
-    const [isBuilderOpen, setIsBuilderOpen] = useState(true);
+    const [isBuilderOpen, setIsBuilderOpen] = useState(false);
 
     return (
         <div className="h-screen w-full bg-yellow-50 text-slate-800 font-sans overflow-hidden selection:bg-red-400 selection:text-white relative">
 
-            <div className="absolute top-6 left-6 md:top-8 md:left-10 flex items-center gap-3 z-50">
-                <div className="w-10 h-10 md:w-12 md:h-12 bg-red-500 rounded-xl md:rounded-2xl flex items-center justify-center text-white text-xl md:text-2xl shadow-[4px_4px_0px_#b91c1c] rotate-[-5deg] hover:rotate-0 transition-transform cursor-pointer">
-                    🍔
-                </div>
-                <span className="text-2xl md:text-3xl font-black italic tracking-tighter text-red-600">
-                    BURGER<span className="text-yellow-500">BLITZ</span>
-                </span>
-            </div>
-
-            <main className="relative w-full max-w-[1400px] h-full mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 pt-20 lg:pt-0">
+            <main className="relative w-full max-w-[1400px] h-full mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 pt-24 lg:pt-0">
 
                 <div className="absolute top-10 right-20 w-64 h-64 bg-red-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
                 <div className="absolute bottom-10 left-20 w-72 h-72 bg-yellow-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>

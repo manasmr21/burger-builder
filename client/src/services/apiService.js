@@ -14,14 +14,14 @@ export const apiService = {
     }
   },
 
-  async submitOrder(slices, quantity) {
+  async submitOrder(slices, quantity, status, customerDetails) {
     try {
       const response = await fetch(`${API_BASE_URL}/orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ slices, quantity })
+        body: JSON.stringify({ slices, quantity, status, customerDetails })
       });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -42,6 +42,25 @@ export const apiService = {
       return await response.json();
     } catch (error) {
       console.error("Error fetching orders:", error);
+      throw error;
+    }
+  },
+
+  async updateOrderStatus(orderId, status) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/orders/update-status`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ orderId, status })
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("Error updating order status:", error);
       throw error;
     }
   }

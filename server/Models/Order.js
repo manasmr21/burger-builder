@@ -2,13 +2,25 @@ const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
     slices: [{
-        type: Number,
-        required: true
+        id: { type: Number, required: true },
+        type: { type: String, required: true },
+        name: { type: String, required: true },
+        price: { type: Number, required: true }
     }],
     quantity: {
         type: Number,
         required: true,
         min: 1
+    },
+    status: {
+        type: String,
+        enum: ['Completed', 'Cancelled', 'Placed']
+    },
+    customerDetails: {
+        name: { type: String },
+        phone: { type: String },
+        address: { type: String },
+        paymentMethod: { type: String, enum: ['UPI', 'NetBanking', 'CreditCard', 'DebitCard'] }
     },
     priceDetails: {
         basePrice: { type: Number, required: true },
@@ -23,4 +35,4 @@ const orderSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Order', orderSchema);
+module.exports = mongoose.model('Order-bb', orderSchema);

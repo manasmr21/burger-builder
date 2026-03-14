@@ -1,15 +1,31 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Homepage from "./Pages/Homepage";
-import Checkout from "./Pages/Checkout";
+import CheckoutPage from "./Pages/CheckoutPage";
+import CustomAlert from "./Components/CustomAlert";
+import useBurgerStore from "./store/burgerStore";
+import Navbar from "./Components/Navbar";
+import OrderHistory from "./Pages/OrderHistory";
 
 function App() {
+  const { alert, hideAlert } = useBurgerStore();
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/checkout" element={<Checkout />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <CustomAlert 
+         isOpen={alert.isOpen} 
+         message={alert.message} 
+         type={alert.type} 
+         onClose={hideAlert} 
+      />
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Homepage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/orders" element={<OrderHistory />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   )
 }
 
