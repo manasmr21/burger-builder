@@ -26,8 +26,8 @@ const BurgerVisualizer = () => {
             >
               {slices.map((slice, index) => (
                 <Draggable 
-                  key={slice.id} 
-                  draggableId={slice.id} 
+                  key={slice._uid} 
+                  draggableId={slice._uid} 
                   index={index}
                   isDragDisabled={slice.type === 'bread'}
                 >
@@ -41,7 +41,7 @@ const BurgerVisualizer = () => {
                         ...provided.draggableProps.style,
                       }}
                     >
-                      <Slice type={slice.type} isTop={index === 0} isBottom={index === slices.length - 1} id={slice.id} />
+                      <Slice type={slice.type} isTop={index === 0} isBottom={index === slices.length - 1} id={slice._uid} />
                     </div>
                   )}
                 </Draggable>

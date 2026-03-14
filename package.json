@@ -17,5 +17,13 @@
   "devDependencies": {
     "concurrently": "^9.2.1",
     "nodemon": "^3.1.14"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manasmr21/burger-builder.git"
+  },
+  "bugs": {
+    "url": "https://github.com/manasmr21/burger-builder/issues"
+  },
+  "homepage": "https://github.com/manasmr21/burger-builder#readme"
 }
