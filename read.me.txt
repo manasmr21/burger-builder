@@ -1,0 +1,12 @@
+in root directory run the command: 
+	-"npm install --legacy-peer-deps" / to install required dependencies
+	-then run "npm run postinstall --legacy-peer-deps" to install dependencies in the 	client and server folder
+	-then run the whole project using "npm run dev" command
+
+environment variables: 
+	for server-
+	 PORT 
+	 db_url
+	
+	for client-
+	 VITE_API_BASE_URL
