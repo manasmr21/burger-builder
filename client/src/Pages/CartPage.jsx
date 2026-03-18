@@ -116,6 +116,10 @@ const CartPage = () => {
                                 <span>Base Price ({slices.length} items) x {quantity}</span>
                                 <span>₹{priceDetails.basePrice}</span>
                             </div>
+                            <div className="flex justify-between text-sm font-bold text-slate-600 border-b border-orange-200/50 pb-2">
+                                <span>Quantity</span>
+                                <span>x{quantity}</span>
+                            </div>
 
                             {priceDetails.discount > 0 && (
                                 <div className="flex justify-between text-green-600 border-b border-orange-200/50 pb-2">
