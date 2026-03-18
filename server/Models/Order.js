@@ -5,7 +5,8 @@ const orderSchema = new mongoose.Schema({
         id: { type: Number, required: true },
         type: { type: String, required: true },
         name: { type: String, required: true },
-        price: { type: Number, required: true }
+        price: { type: Number, required: true },
+        color: { type: String }
     }],
     quantity: {
         type: Number,
@@ -20,7 +21,7 @@ const orderSchema = new mongoose.Schema({
         name: { type: String },
         phone: { type: String },
         address: { type: String },
-        paymentMethod: { type: String, enum: ['UPI', 'NetBanking', 'CreditCard', 'DebitCard'] }
+        paymentMethod: { type: String, enum: ['UPI', 'NetBanking', 'CreditCard', 'DebitCard', 'Cash', 'COD'] }
     },
     priceDetails: {
         basePrice: { type: Number, required: true },

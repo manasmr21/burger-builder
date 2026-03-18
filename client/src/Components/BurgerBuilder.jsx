@@ -28,7 +28,7 @@ const toTypeKey = (name) => name.toLowerCase().replace(/\s+/g, '_');
 const BurgerBuilder = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
 
-    const { setIngredientsBurger, setLoading, isLoading, ingredients, slices, addSlice, removeSlice, quantity, setQuantity, emptySlices } = useBurgerStore();
+    const { setIngredientsBurger, setLoading, isLoading, ingredients, slices, addSlice, removeSlice, quantity, setQuantity } = useBurgerStore();
 
     const fetchIngredients = async () => {
         setLoading(true);
@@ -62,8 +62,6 @@ const BurgerBuilder = ({ isOpen, onClose }) => {
         useBurgerStore.setState({ slices: updated });
     }
 
-    console.log(slices)
-
     return (
         <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/50 p-4">
             <div className="absolute inset-0 z-0" onClick={onClose}></div>
@@ -82,6 +80,9 @@ const BurgerBuilder = ({ isOpen, onClose }) => {
                 ) : (
                     <div className="text-slate-700 flex leading-relaxed font-medium py-8">
                         <div className="left w-2/3">
+                            <p className="mb-3 text-xs font-bold uppercase tracking-widest text-slate-400">
+                                Drag the slices to reorder the slices in burger
+                            </p>
                             <div className="burger-visualizer">
                                 <BreadTop />
                                 {slices?.map((item, idx) => {
@@ -114,7 +115,7 @@ const BurgerBuilder = ({ isOpen, onClose }) => {
                                         return (
                                             <div
                                                 key={item.id + '-' + idx}
-                                                onClick={() => addSlice({ id: item.id, type: toTypeKey(item.name), name: item.name, price: item.price })}
+                                                onClick={() => addSlice({ id: item.id, type: toTypeKey(item.name), name: item.name, price: item.price, color: item.color })}
                                                 className={`px-4 py-3 rounded-xl text-white font-bold flex items-center justify-between gap-4 ${bgColor} shadow-md hover:scale-105 transition-transform cursor-pointer active:scale-95 select-none`}
                                             >
                                                 <span className="text-sm tracking-wide">{item.name}</span>

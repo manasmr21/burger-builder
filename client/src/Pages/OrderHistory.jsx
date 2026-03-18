@@ -3,12 +3,14 @@ import { apiService } from '../services/apiService';
 import Loader from '../Components/Loader';
 import useBurgerStore from '../store/burgerStore';
 import ConfirmModal from '../Components/ConfirmModal';
+import BurgerStack from '../Components/BurgerStack';
 
 const OrderHistory = () => {
     const [orders, setOrders] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [orderToCancel, setOrderToCancel] = useState(null);
     const { showAlert } = useBurgerStore();
+
 
     const fetchOrders = async () => {
         setIsLoading(true);
@@ -91,13 +93,7 @@ const OrderHistory = () => {
                             <div className="flex items-start gap-8">
                                 <div className="flex-1">
                                     <p className="text-sm font-bold text-slate-800 mb-3">Burger Details ({order.quantity}x)</p>
-                                    <div className="flex flex-wrap gap-2">
-                                        {order.slices.map((slice, idx) => (
-                                            <span key={idx} className="bg-orange-50 text-orange-800 border border-orange-200 px-3 py-1 rounded-lg text-sm font-medium">
-                                                {slice.name}
-                                            </span>
-                                        ))}
-                                    </div>
+                                    <BurgerStack slices={order.slices} maxWidthClass="max-w-[220px]" />
                                 </div>
 
                                 {order.customerDetails?.name && (

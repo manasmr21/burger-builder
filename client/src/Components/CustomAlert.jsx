@@ -25,7 +25,7 @@ const CustomAlert = ({ isOpen, message, type = 'success', onClose }) => {
     };
 
     return (
-        <div className="fixed top-8 left-1/2 -translate-x-1/2 z-50 flex justify-center animate-slide-down">
+        <div className="fixed top-8 left-1/2 -translate-x-1/2 z-[200] flex justify-center animate-slide-down">
             <div className={`flex items-center gap-3 px-6 py-4 rounded-2xl border shadow-xl backdrop-blur-md ${colors[type]}`}>
                 <span className="text-2xl">{icons[type]}</span>
                 <p className="font-bold text-lg pr-4">{message}</p>

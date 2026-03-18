@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Homepage from "./Pages/Homepage";
 import CheckoutPage from "./Pages/CheckoutPage";
+import CartPage from "./Pages/CartPage";
 import CustomAlert from "./Components/CustomAlert";
 import useBurgerStore from "./store/burgerStore";
 import Navbar from "./Components/Navbar";
@@ -22,6 +23,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/cart" element={<CartPage />} />
           <Route path="/orders" element={<OrderHistory />} />
         </Routes>
       </BrowserRouter>

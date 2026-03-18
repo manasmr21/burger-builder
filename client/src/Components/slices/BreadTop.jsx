@@ -1,13 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const BreadTop = () => {
+const BreadTop = ({ className = "", style = {} }) => {
     return (
         <motion.div 
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="relative w-4/5 h-32 md:h-40 bg-orange-400 rounded-t-[100px] shadow-inner drop-shadow-xl mt-4 mx-auto overflow-hidden border-b-2 border-orange-500"
-            style={{ backgroundImage: 'linear-gradient(to bottom, #f6ad55, #ed8936)' }}
+            className={`relative w-4/5 h-32 md:h-40 bg-orange-400 rounded-t-[100px] shadow-inner drop-shadow-xl mt-4 mx-auto overflow-hidden border-b-2 border-orange-500 ${className}`}
+            style={{ backgroundImage: 'linear-gradient(to bottom, #f6ad55, #ed8936)', ...style }}
         >
             {/* Seeds */}
             <div className="absolute top-1/4 left-1/4 w-3 h-1.5 bg-yellow-100 rounded-full rotate-15 shadow-sm"></div>

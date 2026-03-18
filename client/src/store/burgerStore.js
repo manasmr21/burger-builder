@@ -10,9 +10,19 @@ const useBurgerStore = create(
             ingredients: [],
             isLoading: false,
             alert: { isOpen: false, message: '', type: 'success' },
+            customerDetails: {
+                name: '',
+                phone: '',
+                address: '',
+                paymentMethod: 'UPI'
+            },
 
             addSlice: (slice) => set((state) => {
-                if (state.slices.length >= 10) return state;
+                if (state.slices.length >= 10) {
+                    return {
+                        alert: { isOpen: true, message: 'Cannot add more slices', type: 'error' }
+                    };
+                }
                 return { slices: [...state.slices, { ...slice, ingredientId: Date.now() + Math.random() }] };
             }),
 
@@ -33,6 +43,12 @@ const useBurgerStore = create(
             resetBurger: () => set({ slices: [], quantity: 1 }),
 
             setIngredientsBurger: (ingredients) => set({ ingredients }),
+
+            setCustomerDetails: (details) => set({ customerDetails: { ...details } }),
+
+            clearCustomerDetails: () => set({
+                customerDetails: { name: '', phone: '', address: '', paymentMethod: 'UPI' }
+            }),
 
             getPriceDetails: () => {
                 const state = get();
