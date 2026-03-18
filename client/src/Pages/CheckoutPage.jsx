@@ -14,7 +14,15 @@ const CheckoutPage = () => {
     });
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+
+        if (name === 'phone') {
+            const digitsOnly = value.replace(/\D/g, '').slice(0, 10);
+            setFormData({ ...formData, phone: digitsOnly });
+            return;
+        }
+
+        setFormData({ ...formData, [name]: value });
     };
 
     const handleProceedToCart = (e) => {
@@ -65,10 +73,12 @@ const CheckoutPage = () => {
                             <div>
                                 <label className="block text-sm font-bold text-slate-700 mb-1">Phone Number</label>
                                 <input
-                                    type="number"
-                                    maxLength={10}
+                                    type="tel"
                                     name="phone"
                                     required
+                                    inputMode="numeric"
+                                    pattern="[0-9]{10}"
+                                    maxLength={10}
                                     value={formData.phone}
                                     onChange={handleChange}
                                     className="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-shadow font-bold text-slate-800"
